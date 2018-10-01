@@ -59,21 +59,22 @@
 
 <script>
 function removeTranstition(e) {
+  // skip function if it's not transform ended.
+  if (e.propertyName !== 'transform') return;
   e.currentTarget.classList.remove('playing');
 }
 function playSound(e) {
-  const audio = document.querySelector(`audio[data-key='${e.keyCode}']`);  
+  const audio = document.querySelector(`audio[data-key='${e.keyCode}']`);
   const key = document.querySelector(`div[data-key='${e.keyCode}']`);
+  if (!audio) return;
   key.classList.add('playing');
   audio.currentTime = 0;
   audio.play();
 }
 // get multi element will get an Object, should convert to Array.
 const keys = Array.from(document.getElementsByClassName('key'));
-keys.forEach(function(el) {
-  el.addEventListener('transitionend', removeTranstition);
-});
-document.addEventListener('keydown', playSound);
+keys.forEach(el => el.addEventListener('transitionend', removeTranstition));
+window.addEventListener('keydown', playSound);
 </script>
 
 
