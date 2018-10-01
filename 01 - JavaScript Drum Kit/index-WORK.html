@@ -58,17 +58,22 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-document.addEventListener('keydown', function(e) {
-  var keycode = e.keyCode;
-  var getElement = document.querySelectorAll(`[data-key='${keycode}']`);
-  if (getElement.length) {
-    getElement[0].className = 'key playing';
-    getElement[1].play();
-    setTimeout(function() {
-      getElement[0].className = 'key';
-    }, 240)
-  }
-}, false)
+function removeTranstition(e) {
+  e.currentTarget.classList.remove('playing');
+}
+function playSound(e) {
+  const audio = document.querySelector(`audio[data-key='${e.keyCode}']`);  
+  const key = document.querySelector(`div[data-key='${e.keyCode}']`);
+  key.classList.add('playing');
+  audio.currentTime = 0;
+  audio.play();
+}
+// get multi element will get an Object, should convert to Array.
+const keys = Array.from(document.getElementsByClassName('key'));
+keys.forEach(function(el) {
+  el.addEventListener('transitionend', removeTranstition);
+});
+document.addEventListener('keydown', playSound);
 </script>
 
 
