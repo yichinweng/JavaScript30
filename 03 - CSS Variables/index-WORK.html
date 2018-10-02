@@ -21,6 +21,19 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+    img {
+      background: var(--base);
+      padding: var(--spacing);
+      filter: blur(var(--blur));
+    }
+    .hl {
+      color: var(--base);
+    }
 
     /*
       misc styles, nothing to do with CSS variables
@@ -45,24 +58,17 @@
   </style>
   
   <script>
-    function handleInputChange() {
-      const spacing = document.getElementById('spacing').value;
-      const blur = document.getElementById('blur').value;
-      const base = document.getElementById('base').value;
-      const hl = document.querySelector('.hl');
-      const img = document.querySelector('img');
+    const inputArray = Array.from(document.querySelectorAll('.controls input'));
 
-      img.style.border = `${spacing}px solid ${base}`;
-      img.style.filter = `blur(${blur}px)`;
-      hl.style.color = base;
+    function handleInputChange() {
+      const unit = this.dataset.sizing || '';
+      // document.documentElement = <html> DOM, change CSS variables.
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + unit);
     }
 
-    const inputArray = Array.from(document.querySelectorAll('input'));
     // addEventListener change vs. onchange: onchange 不可有多個事件，addEventListener 存在相容性問題(IE 9+)
     inputArray.forEach(el => el.addEventListener('change', handleInputChange));
     inputArray.forEach(el => el.addEventListener('mousemove', handleInputChange));
-
-    handleInputChange();
   </script>
 
 </body>
