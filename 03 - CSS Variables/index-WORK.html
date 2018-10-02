@@ -43,8 +43,23 @@
       width: 100px;
     }
   </style>
-
+  
   <script>
+    function handleInputChange() {
+      const spacing = document.getElementById('spacing').value;
+      const blur = document.getElementById('blur').value;
+      const base = document.getElementById('base').value;
+      const img = document.querySelector('img');
+
+      img.style.border = `${spacing}px solid ${base}`;
+      img.style.filter = `blur(${blur}px)`;
+    }
+
+    const inputArray = Array.from(document.querySelectorAll('input'));
+    // addEventListener change vs. onchange: onchange 不可有多個事件，addEventListener 存在相容性問題(IE 9+)
+    inputArray.forEach(el => el.addEventListener('change', handleInputChange));
+
+    handleInputChange();
   </script>
 
 </body>
