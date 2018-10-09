@@ -26,6 +26,9 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+
+      /* container */
+      display: flex;
     }
 
     .panel {
@@ -43,6 +46,13 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+
+      /* items of panels */
+      flex: 1;
+
+      /* container */
+      display: flex;
+      flex-direction: column;
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -63,6 +73,14 @@
       font-family: 'Amatic SC', cursive;
       text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
       font-size: 2em;
+
+      /* items of panel */
+      flex: 1;
+
+      /* make text center */
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .panel p:nth-child(2) {
@@ -70,9 +88,20 @@
     }
 
     .panel.open {
+      flex: 5;
       font-size: 40px;
     }
 
+    .panel p:first-child {
+      transform: translateY(-100%);
+    }
+    .panel p:last-child {
+      transform: translateY(100%);
+    }
+    .panel.show p:first-child,
+    .panel.show p:last-child {
+      transform: translateY(0);
+    }
   </style>
 
 
@@ -105,7 +134,19 @@
   </div>
 
   <script>
+    const panels = document.querySelectorAll('.panel');
 
+    function toggleOpen() {
+      this.classList.toggle('open');
+    }
+
+    function showText(e) {
+      if (e.propertyName !== 'flex-grow') return;
+      this.classList.toggle('show');
+    }
+
+    panels.forEach(el => el.addEventListener('click', toggleOpen));
+    panels.forEach(el => el.addEventListener('transitionend', showText));
   </script>
 
 
